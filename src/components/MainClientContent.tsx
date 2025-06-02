@@ -3,6 +3,7 @@
 import React from "react";
 import { mockProducts } from "@/data/products";
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 const DynamicProductCard = dynamic(() => import('@/components/ProductCard'), {
   ssr: false,
@@ -53,7 +54,7 @@ export default function MainClientContent() {
       <section className="w-full max-w-4xl flex flex-col items-center justify-center text-center py-12 px-4 bg-gradient-to-br from-black via-zinc-900 to-red-700 rounded-xl shadow-lg mb-12">
         <h1 className="text-4xl sm:text-5xl font-black mb-4">Camisetas con flow y diseño único</h1>
         <p className="text-lg sm:text-xl mb-8 text-zinc-200">Camisetas no aptas para gente suave.</p>
-        <a href="/catalogo" className="inline-block bg-red-600 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-full text-lg transition-colors">Ver catálogo</a>
+        <Link href="/catalogo" className="inline-block bg-red-600 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-full text-lg transition-colors">Ver catálogo</Link>
       </section>
 
       {/* Featured Products */}

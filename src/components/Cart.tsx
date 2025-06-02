@@ -1,9 +1,11 @@
 'use client';
 
 import { useCart } from '@/context/CartContext';
+import { useRouter } from 'next/navigation';
 
 export default function Cart() {
   const { items, removeFromCart, updateQuantity, total } = useCart();
+  const router = useRouter();
 
   if (items.length === 0) {
     return (
@@ -53,7 +55,10 @@ export default function Cart() {
             <span>Total:</span>
             <span>${total.toLocaleString()}</span>
           </div>
-          <button className="w-full bg-yellow-400 text-black font-bold py-2 px-4 rounded-full hover:bg-red-600 transition-colors">
+          <button 
+            onClick={() => router.push('/checkout')}
+            className="w-full bg-yellow-400 text-black font-bold py-2 px-4 rounded-full hover:bg-red-600 transition-colors"
+          >
             Comprar ahora
           </button>
         </div>

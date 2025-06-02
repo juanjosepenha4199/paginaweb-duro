@@ -34,9 +34,21 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white flex flex-col min-h-screen`}>
         <CartProvider>
           <Header />
-          <main className="flex-grow container mx-auto px-4 py-8">
-            {children}
-          </main>
+          {/* Contenedor principal - ahora sin opacidad */}
+          <div className="relative w-full flex-grow flex justify-center">
+            {/* Div para la imagen de fondo con opacidad */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-fixed z-0"
+              style={{ backgroundImage: 'url(/legobatman.png)', opacity: 0.1 }}
+            ></div>
+
+            <div className="w-full max-w-screen-xl relative z-10">
+              
+              <main className="w-full mx-auto px-4 py-8">
+                {children}
+              </main>
+            </div>
+          </div>
           <Footer />
         </CartProvider>
       </body>

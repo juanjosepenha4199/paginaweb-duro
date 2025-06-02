@@ -1,21 +1,107 @@
+'use client';
+
+import { useState } from 'react';
 import ProductCard from "@/components/ProductCard";
+import { mockProducts } from "@/data/products";
 
 export default function Catalogo() {
-  // Placeholder product data
-  const products = [
-    { id: 1, name: "Camiseta tu papá", price: 60000, colors: ['Negro'], sizes: ['M', 'L'], image: '/legobatman.png', hoverImage: '/legorobin.png' },
-    { id: 2, name: "Camiseta Urban 2", price: 60000, colors: ['Blanco'], sizes: ['S', 'M'], image: '/placeholder2.png', hoverImage: '/placeholder2_hover.png' },
-    { id: 3, name: "Camiseta Urban 3", price: 60000, colors: ['Rojo'], sizes: ['L', 'XL'], image: '/placeholder3.png', hoverImage: '/placeholder3_hover.png' },
-    { id: 4, name: "Camiseta Urban 4", price: 60000, colors: ['Azul'], sizes: ['M'], image: '/placeholder4.png', hoverImage: '/placeholder4_hover.png' },
-    { id: 5, name: "Camiseta Urban 5", price: 29990, colors: ['Verde'], sizes: ['S', 'L'], image: '/placeholder5.png', hoverImage: '/placeholder5_hover.png' },
-    { id: 6, name: "Camiseta Urban 6", price: 29990, colors: ['Amarillo'], sizes: ['M', 'XL'], image: '/placeholder6.png', hoverImage: '/placeholder6_hover.png' },
-  ];
+  const [searchTerm, setSearchTerm] = useState('');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+
+  // Obtener colores y tallas únicas
+  const uniqueColors = Array.from(new Set(mockProducts.flatMap(p => p.colors)));
+  const uniqueSizes = Array.from(new Set(mockProducts.flatMap(p => p.sizes)));
+
+  // Filtrar productos
+  const filteredProducts = mockProducts.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+    const matchesColors = selectedColors.length === 0 || selectedColors.some(color => product.colors.includes(color));
+    const matchesSizes = selectedSizes.length === 0 || selectedSizes.some(size => product.sizes.includes(size));
+    
+    return matchesSearch && matchesPrice && matchesColors && matchesSizes;
+  });
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Catálogo de Productos</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center">Catálogo de Productos</h1>
+      
+      {/* Filtros */}
+      <div className="max-w-6xl mx-auto mb-8 space-y-4">
+        {/* Barra de búsqueda */}
+        <div className="max-w-md mx-auto">
+          <input
+            type="text"
+            placeholder="Buscar por nombre..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-2 rounded-full bg-zinc-900 border-2 border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 transition-colors"
+          />
+        </div>
+
+        {/* Filtros de precio */}
+        <div className="flex items-center gap-4 justify-center">
+          <span>Precio:</span>
+          <input
+            type="range"
+            min="0"
+            max="100000"
+            step="1000"
+            value={priceRange[1]}
+            onChange={(e) => setPriceRange([0, Number(e.target.value)])}
+            className="w-48"
+          />
+          <span>${priceRange[1].toLocaleString()}</span>
+        </div>
+
+        {/* Filtros de color */}
+        <div className="flex flex-wrap gap-2 justify-center">
+          {uniqueColors.map(color => (
+            <button
+              key={color}
+              onClick={() => setSelectedColors(prev => 
+                prev.includes(color) 
+                  ? prev.filter(c => c !== color)
+                  : [...prev, color]
+              )}
+              className={`px-3 py-1 rounded-full border-2 transition-colors ${
+                selectedColors.includes(color)
+                  ? 'border-red-500 bg-red-600 text-white'
+                  : 'border-zinc-700 hover:border-red-500'
+              }`}
+            >
+              {color}
+            </button>
+          ))}
+        </div>
+
+        {/* Filtros de talla */}
+        <div className="flex flex-wrap gap-2 justify-center">
+          {uniqueSizes.map(size => (
+            <button
+              key={size}
+              onClick={() => setSelectedSizes(prev => 
+                prev.includes(size)
+                  ? prev.filter(s => s !== size)
+                  : [...prev, size]
+              )}
+              className={`px-3 py-1 rounded-full border-2 transition-colors ${
+                selectedSizes.includes(size)
+                  ? 'border-red-500 bg-red-600 text-white'
+                  : 'border-zinc-700 hover:border-red-500'
+              }`}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Grid de productos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard 
             key={product.id} 
             id={product.id} 
@@ -26,6 +112,10 @@ export default function Catalogo() {
           />
         ))}
       </div>
+
+      {filteredProducts.length === 0 && (
+        <p className="text-center text-zinc-500 mt-8">No se encontraron productos que coincidan con tu búsqueda.</p>
+      )}
     </div>
   );
 } 
