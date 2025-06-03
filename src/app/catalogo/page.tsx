@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import ProductCard from "@/components/ProductCard";
 import { mockProducts } from "@/data/products";
+import SearchBar from '@/components/SearchBar';
 
 export default function Catalogo() {
-  const [searchTerm, setSearchTerm] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -16,12 +16,11 @@ export default function Catalogo() {
 
   // Filtrar productos
   const filteredProducts = mockProducts.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
     const matchesColors = selectedColors.length === 0 || selectedColors.some(color => product.colors.includes(color));
     const matchesSizes = selectedSizes.length === 0 || selectedSizes.some(size => product.sizes.includes(size));
     
-    return matchesSearch && matchesPrice && matchesColors && matchesSizes;
+    return matchesPrice && matchesColors && matchesSizes;
   });
 
   return (
@@ -29,16 +28,10 @@ export default function Catalogo() {
       <h1 className="text-4xl font-bold mb-8 text-center">Catálogo de Productos</h1>
       
       {/* Filtros */}
-      <div className="max-w-6xl mx-auto mb-8 space-y-4">
-        {/* Barra de búsqueda */}
-        <div className="max-w-md mx-auto">
-          <input
-            type="text"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 rounded-full bg-zinc-900 border-2 border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 transition-colors"
-          />
+      <div className="max-w-6xl mx-auto mb-8 space-y-6">
+        {/* Barra de búsqueda mejorada */}
+        <div className="max-w-2xl mx-auto">
+          <SearchBar />
         </div>
 
         {/* Filtros de precio */}

@@ -1,13 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image?: string;
-}
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { Product } from '@/data/products';
 
 interface CartItem extends Product {
   quantity: number;
@@ -21,6 +15,7 @@ interface CartContextType {
   removeFromCart: (productId: number, size: string, color: string) => void;
   updateQuantity: (productId: number, size: string, color: string, quantity: number) => void;
   total: number;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -33,11 +28,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setIsClient(true);
   }, []);
 
-  const addToCart = (product: Product, size: string, color: string) => {
+  const addToCart = useCallback((product: Product, size: string, color: string) => {
     if (!isClient) return;
     
     setItems(currentItems => {
-      const existingItem = currentItems.find(item => item.id === product.id && item.size === size && item.color === color);
+      const existingItem = currentItems.find(item => 
+        item.id === product.id && item.size === size && item.color === color
+      );
       
       if (existingItem) {
         return currentItems.map(item =>
@@ -49,14 +46,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       return [...currentItems, { ...product, quantity: 1, size, color }];
     });
-  };
+  }, [isClient]);
 
-  const removeFromCart = (productId: number, size: string, color: string) => {
+  const removeFromCart = useCallback((productId: number, size: string, color: string) => {
     if (!isClient) return;
-    setItems(currentItems => currentItems.filter(item => !(item.id === productId && item.size === size && item.color === color)));
-  };
+    setItems(currentItems => 
+      currentItems.filter(item => 
+        !(item.id === productId && item.size === size && item.color === color)
+      )
+    );
+  }, [isClient]);
 
-  const updateQuantity = (productId: number, size: string, color: string, quantity: number) => {
+  const updateQuantity = useCallback((productId: number, size: string, color: string, quantity: number) => {
     if (!isClient || quantity < 1) return;
     
     setItems(currentItems =>
@@ -66,12 +67,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           : item
       )
     );
-  };
+  }, [isClient]);
 
-  const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const clearCart = useCallback(() => {
+    if (!isClient) return;
+    setItems([]);
+  }, [isClient]);
+
+  const total = useMemo(() => 
+    items.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+    [items]
+  );
+
+  const value = useMemo(() => ({
+    items,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    total,
+    clearCart
+  }), [items, addToCart, removeFromCart, updateQuantity, total, clearCart]);
 
   return (
-    <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, total }}>
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import NextImage from 'next/image';
+import { memo } from 'react';
 
 interface ProductCardProps {
   id: number;
@@ -12,37 +12,32 @@ interface ProductCardProps {
   hoverImage?: string;
 }
 
-export default function ProductCard({ id, name, price, image, hoverImage }: ProductCardProps) {
-  const [currentImage, setCurrentImage] = useState(image);
-
-  const handleMouseEnter = () => {
-    if (hoverImage) {
-      setCurrentImage(hoverImage);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setCurrentImage(image);
-  };
-
+const ProductCard = memo(function ProductCard({ id, name, price, image, hoverImage }: ProductCardProps) {
   return (
     <div className="bg-zinc-900 rounded-lg p-4 flex flex-col items-center shadow-md">
       <div className="flex flex-col items-center w-full">
-        <div 
-          className="w-40 h-40 bg-zinc-800 rounded mb-4 flex items-center justify-center overflow-hidden"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {currentImage ? (
+        <div className="w-40 h-40 bg-zinc-800 rounded mb-4 flex items-center justify-center overflow-hidden relative group">
+          {image && (
             <NextImage 
-              src={currentImage}
+              src={image}
               alt={name}
               width={160}
               height={160}
-              objectFit="cover"
-              className="transition-transform duration-300 hover:scale-105"
+              className="object-cover transition-opacity duration-300 group-hover:opacity-0"
+              loading="lazy"
             />
-          ) : (
+          )}
+          {hoverImage && (
+            <NextImage 
+              src={hoverImage}
+              alt={`${name} hover`}
+              width={160}
+              height={160}
+              className="object-cover absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              loading="lazy"
+            />
+          )}
+          {!image && !hoverImage && (
             <span className="text-zinc-500">Imagen</span>
           )}
         </div>
@@ -58,4 +53,6 @@ export default function ProductCard({ id, name, price, image, hoverImage }: Prod
       </div>
     </div>
   );
-} 
+});
+
+export default ProductCard; 

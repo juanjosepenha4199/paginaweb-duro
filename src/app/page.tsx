@@ -18,7 +18,7 @@ export default function Home() {
     <CartProvider>
       <Suspense fallback={
         <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          Cargando...
+          Cargando... Para darte el mejor serivcio posible
         </div>
       }>
         <MainClientContent />

@@ -3,10 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from '@/context/CartContext';
+import { useMemo } from 'react';
 
 export default function Header() {
   const { items } = useCart();
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  
+  const totalItems = useMemo(() => 
+    items.reduce((sum, item) => sum + item.quantity, 0),
+    [items]
+  );
 
   return (
     <header className="bg-black text-white py-4 shadow-md sticky top-0 z-50">
@@ -14,10 +19,17 @@ export default function Header() {
         <Link href="/">
           <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             {/* Using the actual logo file */}
-            <Image src="/slogan.png" alt="DURO Logo" width={40} height={40} />
+            <Image 
+              src="/slogan.png" 
+              alt="DURO Logo" 
+              width={40} 
+              height={40}
+              priority={true}
+            />
             <span className="text-2xl font-extrabold tracking-widest">DURO</span>
           </div>
         </Link>
+
         <nav>
           <ul className="flex space-x-6">
             <li><Link href="/catalogo" className="hover:text-red-500 transition-colors">Catálogo</Link></li>
