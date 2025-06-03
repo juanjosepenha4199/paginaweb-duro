@@ -7,7 +7,7 @@ import emailjs from '@emailjs/browser';
 
 // Configuración de EmailJS
 const EMAILJS_SERVICE_ID = 'service_xhsskxq';
-const EMAILJS_TEMPLATE_ID = 'template_53xkcde';
+const EMAILJS_TEMPLATE_ID = 'template_3qk52vs';
 const EMAILJS_PUBLIC_KEY = 'QzP43e3sALNx_gPmz';
 
 // Tipos
@@ -46,11 +46,11 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (status === 'success') {
       const timer = setTimeout(() => {
-        router.push('/');
-      }, 3000); // Restablecer el tiempo de espera a 3 segundos
-      return () => clearTimeout(timer); // Limpiar el temporizador si el componente se desmonta
+        router.push('/finalizacion');
+      }, 2000);
+      return () => clearTimeout(timer);
     }
-  }, [status, router]); // Dependencias: status y router
+  }, [status, router]);
 
   const formatCurrency = (amount: number) => {
     return amount.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -61,52 +61,24 @@ export default function CheckoutPage() {
     setStatus('loading');
 
     try {
-      // Preparar los detalles del pedido como un array de strings usando items del contexto
       const orderDetailsArray = items.map((item: CartItem) => 
         `${item.name} - Talla: ${item.size} - Color: ${item.color} - Cantidad: ${item.quantity} - ${formatCurrency(item.price * item.quantity)}`
       );
 
-      // === Líneas de depuración temporales ===
-      // console.log('Datos del formulario:', formData);
-      // console.log('Items del carrito (desde contexto):', items);
-      // console.log('Array orderDetails para EmailJS:', orderDetailsArray);
-      // console.log('Total del pedido:', total);
-      // console.log('Variables a enviar a EmailJS:', {
-      //   from_name: formData.name,
-      //   from_email: formData.email,
-      //   subject: `Nuevo pedido de ${formData.name}`,
-      //   reply_to: formData.email,
-      //   sender_info: `${formData.name} (${formData.email})`,
-      //   order_details: orderDetailsArray,
-      //   total_amount: formatCurrency(total),
-      //   shipping_address: `${formData.address}, ${formData.city}, ${formData.postalCode}`,
-      //   phone_number: formData.phone
-      // });
-      // =====================================
-
-      // Enviar correo a la empresa
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
           from_name: formData.name,
           from_email: formData.email,
-          subject: `Nuevo pedido de ${formData.name}`,
+          message: `Pedido:\n${orderDetailsArray.join('\n')}\n\nTotal: ${formatCurrency(total)}\n\nDirección de envío:\n${formData.address}\n${formData.city}\n${formData.postalCode}\n\nTeléfono: ${formData.phone}`,
           reply_to: formData.email,
-          sender_info: `${formData.name} (${formData.email})`,
-          order_details: orderDetailsArray, // Enviamos el array
-          total_amount: formatCurrency(total), // Usamos el total del contexto
-          shipping_address: `${formData.address}, ${formData.city}, ${formData.postalCode}`,
-          phone_number: formData.phone
         },
         EMAILJS_PUBLIC_KEY
       );
 
-      // Limpiar el carrito usando la función del contexto
       clearCart();
-      
       setStatus('success');
-      // La redirección ahora se maneja en el useEffect
     } catch (err) {
       console.error('Error sending email:', err);
       setStatus('error');
@@ -146,8 +118,6 @@ export default function CheckoutPage() {
                 {items.map((item: CartItem, index) => (
                   <div key={index} className="flex items-center justify-between py-3 border-b border-zinc-700 last:border-b-0">
                     <div className="flex items-center gap-4">
-                      {/* Placeholder for product image if available */}
-                      {/* <img src={item.imageUrl} alt={item.name} className="w-16 h-16 object-cover rounded"/> */}
                       <div>
                         <p className="font-medium text-lg">{item.name}</p>
                         <p className="text-sm text-zinc-400">Talla: {item.size}, Color: {item.color}</p>
@@ -172,7 +142,7 @@ export default function CheckoutPage() {
               <h2 className="text-2xl font-bold mb-6">Información de Envío</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2 text-zinc-300">Nombre completo</label>
+                  <label htmlFor="name" className="block text-base font-medium mb-2 text-zinc-300">Nombre completo</label>
                   <input
                     type="text"
                     id="name"
@@ -180,11 +150,11 @@ export default function CheckoutPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white"
+                    className="w-full px-4 py-3 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white text-base"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2 text-zinc-300">Correo electrónico</label>
+                  <label htmlFor="email" className="block text-base font-medium mb-2 text-zinc-300">Correo electrónico</label>
                   <input
                     type="email"
                     id="email"
@@ -192,11 +162,11 @@ export default function CheckoutPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white"
+                    className="w-full px-4 py-3 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white text-base"
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-2 text-zinc-300">Teléfono</label>
+                  <label htmlFor="phone" className="block text-base font-medium mb-2 text-zinc-300">Teléfono</label>
                   <input
                     type="tel"
                     id="phone"
@@ -204,11 +174,11 @@ export default function CheckoutPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white"
+                    className="w-full px-4 py-3 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white text-base"
                   />
                 </div>
                 <div>
-                  <label htmlFor="address" className="block text-sm font-medium mb-2 text-zinc-300">Dirección</label>
+                  <label htmlFor="address" className="block text-base font-medium mb-2 text-zinc-300">Dirección</label>
                   <input
                     type="text"
                     id="address"
@@ -216,11 +186,11 @@ export default function CheckoutPage() {
                     value={formData.address}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white"
+                    className="w-full px-4 py-3 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white text-base"
                   />
                 </div>
                 <div>
-                  <label htmlFor="city" className="block text-sm font-medium mb-2 text-zinc-300">Ciudad</label>
+                  <label htmlFor="city" className="block text-base font-medium mb-2 text-zinc-300">Ciudad</label>
                   <input
                     type="text"
                     id="city"
@@ -228,11 +198,11 @@ export default function CheckoutPage() {
                     value={formData.city}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white"
+                    className="w-full px-4 py-3 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white text-base"
                   />
                 </div>
                 <div>
-                  <label htmlFor="postalCode" className="block text-sm font-medium mb-2 text-zinc-300">Código Postal</label>
+                  <label htmlFor="postalCode" className="block text-base font-medium mb-2 text-zinc-300">Código Postal</label>
                   <input
                     type="text"
                     id="postalCode"
@@ -240,7 +210,7 @@ export default function CheckoutPage() {
                     value={formData.postalCode}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white"
+                    className="w-full px-4 py-3 bg-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-white text-base"
                   />
                 </div>
 
@@ -253,15 +223,22 @@ export default function CheckoutPage() {
                 </button>
 
                 {status === 'success' && (
-                  <p className="text-green-500 text-center mt-4">
-                    Gracias por tu confianza, en un momento te contactaremos para continuar con el pedido.
-                  </p>
+                  <div className="mt-6 p-4 bg-green-900/50 border border-green-500 rounded-lg">
+                    <p className="text-green-400 text-center text-lg font-medium">
+                      ¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.
+                    </p>
+                    <p className="text-green-400/80 text-center text-sm mt-2">
+                      Serás redirigido en unos segundos...
+                    </p>
+                  </div>
                 )}
 
                 {status === 'error' && (
-                  <p className="text-red-500 text-center mt-4">
-                    Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.
-                  </p>
+                  <div className="mt-6 p-4 bg-red-900/50 border border-red-500 rounded-lg">
+                    <p className="text-red-400 text-center text-lg font-medium">
+                      Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.
+                    </p>
+                  </div>
                 )}
               </form>
             </div>

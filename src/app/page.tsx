@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { CartProvider } from "@/context/CartContext";
 import dynamic from 'next/dynamic';
 import ThreeColumnLayout from '@/components/ThreeColumnLayout';
+import HeroSection from '@/components/HeroSection';
 
 const MainClientContent = dynamic(() => import('../components/MainClientContent'), {
   ssr: false,
@@ -22,6 +23,7 @@ export default function Home() {
           Cargando... Para darte el mejor serivco posible
         </div>
       }>
+        <HeroSection />
         <ThreeColumnLayout
           articleContent={<MainClientContent />}
         />

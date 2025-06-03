@@ -4,6 +4,7 @@ import React from "react";
 import { mockProducts } from "@/data/products";
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const DynamicProductCard = dynamic(() => import('@/components/ProductCard'), {
   ssr: false,
@@ -20,44 +21,20 @@ const DynamicProductCard = dynamic(() => import('@/components/ProductCard'), {
 
 export default function MainClientContent() {
   // Filter products for the homepage featured section
-  const featuredProductIds = [1, 4, 5];
+  const featuredProductIds = [1, 4, 5, 2, 3, 6];
   const featuredProducts = mockProducts.filter(product => featuredProductIds.includes(product.id));
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center font-sans">
-
-      {/* Scrolling Text Section */}
-      <div className="w-full overflow-hidden bg-red-600 py-2 mb-8">
-        <div className="animate-scroll flex whitespace-nowrap">
-          {[...Array(5)].map((_, i) => (
-            <React.Fragment key={i}>
-              <span className="inline-block mx-4 text-lg font-bold">
-                ¡No se pierda esta increíble ropa!
-              </span>
-              <span className="inline-block mx-4 text-lg font-bold">
-                ¡Esto sí es ropa de calidad!
-              </span>
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Banner with CTA */}
-      <section className="w-full max-w-4xl flex flex-col items-center justify-center text-center py-12 px-4 bg-gradient-to-br from-black via-zinc-900 to-red-700 rounded-xl shadow-lg mb-12">
-        <h1 className="text-4xl sm:text-5xl font-black mb-4">Camisetas con flow y diseño único</h1>
-        <p className="text-lg sm:text-xl mb-8 text-zinc-200">Camisetas no aptas para gente suave.</p>
-        <Link href="/catalogo" className="inline-block bg-red-600 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-full text-lg transition-colors">Ver catálogo</Link>
-      </section>
-
       {/* Featured Products */}
-      <section className="w-full max-w-5xl px-4 mb-16" id="destacados">
-        <h2 className="text-2xl font-bold mb-6 text-white">Las camisetas mas chimbas</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <section className="w-full max-w-7xl px-4 py-20">
+        <h2 className="text-3xl font-bold mb-12 text-center">Camisetas Destacadas</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredProducts.map((product) => (
             <DynamicProductCard 
               key={product.id} 
               id={product.id} 
-              name={product.id === 1 ? "Camiseta tu papá" : product.name} // Change name for ID 1
+              name={product.name}
               price={product.price}
               image={product.image}
               hoverImage={product.hoverImage}
@@ -66,25 +43,125 @@ export default function MainClientContent() {
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="w-full max-w-4xl px-4 mb-20">
-        <h2 className="text-xl font-bold mb-4 text-white">¿Por qué comprar en DURO?</h2>
-        <div className="flex flex-col sm:flex-row gap-6 justify-center">
-          <div className="flex-1 bg-zinc-900 rounded-lg p-6 flex flex-col items-center">
-            <span className="text-3xl mb-2">🚚</span>
-            <span className="font-semibold">Envío gratis</span>
-            <span className="text-zinc-400 text-sm mt-1">En compras sobre $100.000</span>
+      {/* Online Simulator */}
+      <section className="w-full bg-zinc-900 py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold mb-6">Diseña tu Camiseta</h2>
+              <p className="text-zinc-400 mb-8">
+                Prueba diferentes diseños, colores y estilos en tiempo real. 
+                Nuestro simulador te permite ver exactamente cómo quedará tu camiseta.
+              </p>
+              <Link 
+                href="/disenador" 
+                className="inline-block bg-red-600 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-full transition-colors"
+              >
+                Probar Simulador
+              </Link>
+            </div>
+            <div className="relative h-[400px] rounded-xl overflow-hidden">
+              <Image
+                src="/simulator-preview.jpg"
+                alt="Simulador de Diseño"
+                fill
+                className="object-cover"
+              />
+            </div>
           </div>
-          <div className="flex-1 bg-zinc-900 rounded-lg p-6 flex flex-col items-center">
-            <span className="text-3xl mb-2">🔄</span>
-            <span className="font-semibold">Cambios fáciles</span>
-            <span className="text-zinc-400 text-sm mt-1">30 días para cambiar tu talla</span>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="w-full max-w-7xl px-4 py-20">
+        <h2 className="text-3xl font-bold mb-12 text-center">Lo que dicen nuestros clientes</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[1, 2, 3].map((_, index) => (
+            <div key={index} className="bg-zinc-900 p-6 rounded-xl">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-zinc-800 rounded-full mr-4"></div>
+                <div>
+                  <h4 className="font-bold">Cliente {index + 1}</h4>
+                  <p className="text-zinc-400 text-sm">⭐⭐⭐⭐⭐</p>
+                </div>
+              </div>
+              <p className="text-zinc-300">
+                "Increíble calidad y servicio. Las camisetas son exactamente como las vi en la web."
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Social Media Feed */}
+      <section className="w-full bg-zinc-900 py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">Síguenos en Instagram</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((_, index) => (
+              <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
+                <Image
+                  src={`/instagram-${index + 1}.jpg`}
+                  alt={`Instagram Post ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ))}
           </div>
-          <div className="flex-1 bg-zinc-900 rounded-lg p-6 flex flex-col items-center">
-            <span className="text-3xl mb-2">💳</span>
-            <span className="font-semibold">Pago seguro</span>
-            <span className="text-zinc-400 text-sm mt-1">Tus datos siempre protegidos</span>
+        </div>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="w-full max-w-7xl px-4 py-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div className="text-4xl mb-4">🔒</div>
+            <h3 className="font-bold mb-2">Pago Seguro</h3>
           </div>
+          <div>
+            <div className="text-4xl mb-4">🚚</div>
+            <h3 className="font-bold mb-2">Envío Garantizado</h3>
+          </div>
+          <div>
+            <div className="text-4xl mb-4">💯</div>
+            <h3 className="font-bold mb-2">Calidad Premium</h3>
+          </div>
+          <div>
+            <div className="text-4xl mb-4">🔄</div>
+            <h3 className="font-bold mb-2">Devolución Fácil</h3>
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Preview */}
+      <section className="w-full max-w-7xl px-4 py-20">
+        <h2 className="text-3xl font-bold mb-12 text-center">Ideas Creativas</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[1, 2, 3].map((_, index) => (
+            <div key={index} className="bg-zinc-900 rounded-xl overflow-hidden">
+              <div className="relative h-48">
+                <Image
+                  src={`/blog-${index + 1}.jpg`}
+                  alt={`Blog Post ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-bold mb-2">Tendencias de Estampado 2024</h3>
+                <p className="text-zinc-400 mb-4">
+                  Descubre las últimas tendencias en diseño de camisetas...
+                </p>
+                <Link 
+                  href={`/blog/${index + 1}`}
+                  className="text-red-500 hover:text-red-400 font-semibold"
+                >
+                  Leer más →
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
