@@ -22,7 +22,7 @@ export default function HeroSection() {
           href="/catalogo" 
           className="inline-block bg-red-600 hover:bg-yellow-400 text-black font-bold py-4 px-12 rounded-full text-xl transition-colors transform hover:scale-105"
         >
-          Crea tu diseño
+          Echa un vistazo a nuestro catalogo
         </Link>
       </div>
     </section>

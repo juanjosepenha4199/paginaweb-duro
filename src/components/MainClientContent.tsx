@@ -43,56 +43,6 @@ export default function MainClientContent() {
         </div>
       </section>
 
-      {/* Online Simulator */}
-      <section className="w-full bg-zinc-900 py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Diseña tu Camiseta</h2>
-              <p className="text-zinc-400 mb-8">
-                Prueba diferentes diseños, colores y estilos en tiempo real. 
-                Nuestro simulador te permite ver exactamente cómo quedará tu camiseta.
-              </p>
-              <Link 
-                href="/disenador" 
-                className="inline-block bg-red-600 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-full transition-colors"
-              >
-                Probar Simulador
-              </Link>
-            </div>
-            <div className="relative h-[400px] rounded-xl overflow-hidden">
-              <Image
-                src="/simulator-preview.jpg"
-                alt="Simulador de Diseño"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="w-full max-w-7xl px-4 py-20">
-        <h2 className="text-3xl font-bold mb-12 text-center">Lo que dicen nuestros clientes</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((_, index) => (
-            <div key={index} className="bg-zinc-900 p-6 rounded-xl">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-zinc-800 rounded-full mr-4"></div>
-                <div>
-                  <h4 className="font-bold">Cliente {index + 1}</h4>
-                  <p className="text-zinc-400 text-sm">⭐⭐⭐⭐⭐</p>
-                </div>
-              </div>
-              <p className="text-zinc-300">
-                "Increíble calidad y servicio. Las camisetas son exactamente como las vi en la web."
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Social Media Feed */}
       <section className="w-full bg-zinc-900 py-20">
         <div className="max-w-7xl mx-auto px-4">
@@ -101,8 +51,8 @@ export default function MainClientContent() {
             {[1, 2, 3, 4].map((_, index) => (
               <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
                 <Image
-                  src={`/instagram-${index + 1}.jpg`}
-                  alt={`Instagram Post ${index + 1}`}
+                  src="/legorobin.png"
+                  alt="DURO Instagram Post"
                   fill
                   className="object-cover"
                 />
@@ -131,37 +81,6 @@ export default function MainClientContent() {
             <div className="text-4xl mb-4">🔄</div>
             <h3 className="font-bold mb-2">Devolución Fácil</h3>
           </div>
-        </div>
-      </section>
-
-      {/* Blog Preview */}
-      <section className="w-full max-w-7xl px-4 py-20">
-        <h2 className="text-3xl font-bold mb-12 text-center">Ideas Creativas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((_, index) => (
-            <div key={index} className="bg-zinc-900 rounded-xl overflow-hidden">
-              <div className="relative h-48">
-                <Image
-                  src={`/blog-${index + 1}.jpg`}
-                  alt={`Blog Post ${index + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="font-bold mb-2">Tendencias de Estampado 2024</h3>
-                <p className="text-zinc-400 mb-4">
-                  Descubre las últimas tendencias en diseño de camisetas...
-                </p>
-                <Link 
-                  href={`/blog/${index + 1}`}
-                  className="text-red-500 hover:text-red-400 font-semibold"
-                >
-                  Leer más →
-                </Link>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
     </div>
