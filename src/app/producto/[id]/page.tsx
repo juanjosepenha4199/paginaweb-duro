@@ -3,7 +3,14 @@
 import { useState } from "react";
 import React from "react";
 
-export default function ProductoDetalle({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default function ProductoDetalle({ params }: PageProps) {
   const productId = params.id;
 
   const [selectedSize, setSelectedSize] = useState("");
