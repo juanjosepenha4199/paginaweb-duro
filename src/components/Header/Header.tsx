@@ -14,11 +14,10 @@ export default function Header() {
   );
 
   return (
-    <header className="bg-black text-white py-4 shadow-md sticky top-0 z-50">
+    <header className="bg-black text-white py-4">
       <div className="container mx-auto flex justify-between items-center px-4">
         <Link href="/">
-          <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            {/* Using the actual logo file */}
+          <div className="flex items-center gap-2">
             <Image 
               src="/slogan.png" 
               alt="DURO Logo" 
@@ -26,16 +25,16 @@ export default function Header() {
               height={40}
               priority={true}
             />
-            <span className="text-2xl font-extrabold tracking-widest">DURO</span>
+            <span>DURO</span>
           </div>
         </Link>
 
         <nav>
-          <ul className="flex space-x-6">
-            <li><Link href="/catalogo" className="hover:text-red-500 transition-colors">Catálogo</Link></li>
-            <li><Link href="/contacto" className="hover:text-red-500 transition-colors">Contacto</Link></li>
+          <ul className="flex space-x-4">
+            <li><Link href="/catalogo">Catálogo</Link></li>
+            <li><Link href="/contacto">Contacto</Link></li>
             <li>
-              <Link href="/carrito" id="cart-header-btn" className="hover:text-red-500 transition-colors relative">
+              <Link href="/carrito" id="cart-header-btn" className="relative">
                 Carrito
                 {totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -44,7 +43,6 @@ export default function Header() {
                 )}
               </Link>
             </li>
-            {/* Add more navigation links here */}
           </ul>
         </nav>
       </div>

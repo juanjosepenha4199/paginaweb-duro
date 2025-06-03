@@ -1,12 +1,21 @@
 'use client';
 
-import Cart from "@/components/Cart";
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+const DynamicCart = dynamic(() => import('@/components/Cart'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full max-w-xl bg-zinc-900/50 backdrop-blur-sm p-8 rounded-xl shadow-soft text-white flex items-center justify-center min-h-[300px]">
+      Cargando Carrito...
+    </div>
+  ),
+});
 
 export default function CarritoPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-theme(space.20))] py-8">
-      <h1 className="text-3xl font-bold mb-8">Tu Carrito</h1>
-      <Cart />
+    <div className="container-custom py-12 min-h-screen-minus-header-footer flex justify-center">
+      <DynamicCart />
     </div>
   );
 } 

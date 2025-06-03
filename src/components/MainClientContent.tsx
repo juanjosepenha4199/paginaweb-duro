@@ -25,14 +25,6 @@ export default function MainClientContent() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center font-sans">
-      {/* Header / Logo */}
-      <header className="w-full flex justify-center py-8">
-        <div className="flex items-center gap-4">
-          {/* Assuming Image for slogan is handled correctly or is static */}
-          {/* <Image src="/slogan.png" alt="DURO Logo" width={48} height={48} /> */}
-          <span className="text-3xl font-extrabold tracking-widest text-white">DURO</span>
-        </div>
-      </header>
 
       {/* Scrolling Text Section */}
       <div className="w-full overflow-hidden bg-red-600 py-2 mb-8">
@@ -95,9 +87,6 @@ export default function MainClientContent() {
           </div>
         </div>
       </section>
-
-      {/* Cart */}
-      {/* Removed Cart component */}
     </div>
   );
 } 

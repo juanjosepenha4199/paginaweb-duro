@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from 'next/font/google';
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 // Removed unused imports for Link and Image as they are now in Header/Footer components
@@ -9,14 +9,9 @@ import { CartProvider } from "@/context/CartContext";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
@@ -31,24 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white flex flex-col min-h-screen`}>
+      <body className={`${inter.variable} font-sans antialiased bg-black text-white flex flex-col min-h-screen`}>
         <CartProvider>
           <Header />
-          {/* Contenedor principal - ahora sin opacidad */}
-          <div className="relative w-full flex-grow flex justify-center">
-            {/* Div para la imagen de fondo con opacidad */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-fixed z-0"
-              style={{ backgroundImage: 'url(/legobatman.png)', opacity: 0.1 }}
-            ></div>
-
-            <div className="w-full max-w-screen-xl relative z-10">
-              
-              <main className="w-full mx-auto px-4 py-8">
-                {children}
-              </main>
-            </div>
-          </div>
+          <main className="w-full mx-auto px-4 py-8">
+            {children}
+          </main>
           <Footer />
         </CartProvider>
       </body>
