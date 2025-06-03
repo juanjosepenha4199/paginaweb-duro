@@ -4,9 +4,7 @@ import { useState } from "react";
 import React from "react";
 
 export default function ProductoDetalle({ params }: { params: { id: string } }) {
-  // Use React.use to unwrap the params promise
-  const resolvedParams = React.use(Promise.resolve(params));
-  const productId = resolvedParams.id;
+  const productId = params.id;
 
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
