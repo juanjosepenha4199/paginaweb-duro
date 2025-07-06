@@ -6,45 +6,60 @@ export interface Product {
   hoverImage?: string;
   colors: string[];
   sizes: string[];
+  description?: string;
+  images?: string[];
 }
 
 // Mock product data (replace with API call later)
 export const mockProducts: Product[] = [
   {
     id: 1,
-    name: 'Camiseta "Tu Papá"',
+    name: 'Camiseta "No Price To High"',
     price: 65000,
     colors: ['Negro', 'Blanco', 'Gris'],
     sizes: ['M', 'L', 'XL'],
-    image: '/legobatman.png',
-    hoverImage: '/legorobin.png',
+    image: '/corazon-atras-blanco hueso.png',
+    hoverImage: '/corazón-adelante-blancohueso.png',
+    description: 'Camiseta de algodón premium, suave al tacto y resistente. Estampado de alta calidad que no se desgasta con los lavados.',
+    images: [
+      '/corazon-atras-blanco hueso.png',
+      '/corazón-adelante-blancohueso.png',
+      '/corazón-atras-negro.png',
+      '/corazón-adelante-negro.png',
+    ],
   },
   {
     id: 2,
-    name: 'Camiseta "No Pain No Gain"',
+    name: 'Camiseta "The Lazy Dreaming"',
     price: 70000,
     colors: ['Negro', 'Rojo', 'Blanco'],
     sizes: ['M', 'L', 'XL'],
-    image: '/legobatman.png',
-    hoverImage: '/legorobin.png',
+    image: '/flor atras blanco.png',
+    hoverImage: '/flor-adelante-blanca.png',
+    description: '100% algodón orgánico. Material transpirable y cómodo para el día a día.',
+    images: ['/flor atras blanco.png', '/flor-adelante-blanca.png', '/flor atras negro.png', '/flor-adelante-negra.png'],
   },
   {
     id: 3,
-    name: 'Camiseta "Street Flow"',
+    name: 'Camiseta "Tropical State of Mind"',
     price: 75000,
     colors: ['Azul Marino', 'Gris Oscuro', 'Negro'],
     sizes: ['M', 'L', 'XL'],
-    image: '/legobatman.png',
-    hoverImage: '/legorobin.png',
+    image: '/sol y palmera- atras-negra.png',
+    hoverImage: '/sol-adelante-negra.png',
+    description: 'Tejido suave y ligero. Perfecta para quienes buscan estilo y comodidad.',
+    images: ['/sol y palmera- atras-negra.png', '/sol-adelante-negra.png'],
   },
   {
     id: 4,
-    name: 'Camiseta "Urban Warrior"',
+    name: 'Camiseta "Love is a laserquest"',
     price: 68000,
     colors: ['Negro', 'Verde Militar', 'Gris'],
     sizes: ['M', 'L', 'XL'],
-    image: '/legobatman.png',
-    hoverImage: '/legorobin.png',
+    image: '/losmonosconfrio_atras.png',
+    hoverImage: '/losmonosconfrio_adelante.png',
+    description: 'Camiseta de algodón premium, suave al tacto y resistente. Estampado de alta calidad que no se desgasta con los lavados.',
+    images: ['/losmonosconfrio_adelante.png', '/losmonosconfrio_atras.png'],
   },
   {
     id: 5,
@@ -54,6 +69,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: '100% algodón orgánico. Material transpirable y cómodo para el día a día.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 6,
@@ -63,6 +80,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Tejido suave y ligero. Perfecta para quienes buscan estilo y comodidad.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 7,
@@ -72,6 +91,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Camiseta de algodón premium, suave al tacto y resistente. Estampado de alta calidad que no se desgasta con los lavados.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 8,
@@ -81,6 +102,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Tejido suave y ligero. Perfecta para quienes buscan estilo y comodidad.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 9,
@@ -90,6 +113,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Camiseta de algodón premium, suave al tacto y resistente. Estampado de alta calidad que no se desgasta con los lavados.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 10,
@@ -99,6 +124,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: '100% algodón orgánico. Material transpirable y cómodo para el día a día.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 11,
@@ -108,6 +135,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Tejido suave y ligero. Perfecta para quienes buscan estilo y comodidad.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 12,
@@ -117,6 +146,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Camiseta de algodón premium, suave al tacto y resistente. Estampado de alta calidad que no se desgasta con los lavados.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 13,
@@ -126,6 +157,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Tejido suave y ligero. Perfecta para quienes buscan estilo y comodidad.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 14,
@@ -135,6 +168,8 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: 'Camiseta de algodón premium, suave al tacto y resistente. Estampado de alta calidad que no se desgasta con los lavados.',
+    images: ['/legobatman.png', '/legorobin.png'],
   },
   {
     id: 15,
@@ -144,5 +179,7 @@ export const mockProducts: Product[] = [
     sizes: ['M', 'L', 'XL'],
     image: '/legobatman.png',
     hoverImage: '/legorobin.png',
+    description: '100% algodón orgánico. Material transpirable y cómodo para el día a día.',
+    images: ['/legobatman.png', '/legorobin.png'],
   }
 ]; 

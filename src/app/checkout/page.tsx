@@ -45,10 +45,8 @@ export default function CheckoutPage() {
   // Efecto para manejar la redirección después del éxito
   useEffect(() => {
     if (status === 'success') {
-      const timer = setTimeout(() => {
-        router.push('/finalizacion');
-      }, 2000);
-      return () => clearTimeout(timer);
+      // Redirigir inmediatamente a la página de finalización
+      router.push('/finalizacion');
     }
   }, [status, router]);
 

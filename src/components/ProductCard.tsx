@@ -10,38 +10,47 @@ interface ProductCardProps {
   price: number;
   image?: string;
   hoverImage?: string;
+  images?: string[];
 }
 
-const ProductCard = memo(function ProductCard({ id, name, price, image, hoverImage }: ProductCardProps) {
+const ProductCard = memo(function ProductCard({ id, name, price, image, hoverImage, images }: ProductCardProps) {
   return (
-    <div className="bg-zinc-900 rounded-lg p-4 flex flex-col items-center shadow-md">
+    <div className="flex flex-col items-center w-full">
       <div className="flex flex-col items-center w-full">
-        <div className="w-40 h-40 bg-zinc-800 rounded mb-4 flex items-center justify-center overflow-hidden relative group">
-          {image && (
-            <NextImage 
-              src={image}
-              alt={name}
-              width={160}
-              height={160}
-              className="object-cover transition-opacity duration-300 group-hover:opacity-0"
-              loading="lazy"
-            />
-          )}
-          {hoverImage && (
-            <NextImage 
-              src={hoverImage}
-              alt={`${name} hover`}
-              width={160}
-              height={160}
-              className="object-cover absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              loading="lazy"
-            />
-          )}
-          {!image && !hoverImage && (
-            <span className="text-zinc-500">Imagen</span>
-          )}
-        </div>
-        <h3 className="font-semibold text-lg mb-2 text-center">{name}</h3>
+        <Link href={`/catalogo/${id}`} className="w-full">
+          <div className="aspect-[3/4] w-full max-w-[520px] rounded mb-4 flex items-center justify-center overflow-hidden relative group bg-transparent cursor-pointer">
+            {images && images.length > 0 ? (
+              <NextImage 
+                src={images[0]}
+                alt={name}
+                fill
+                className="object-cover transition-opacity duration-300 group-hover:opacity-0"
+                loading="lazy"
+              />
+            ) : image && (
+              <NextImage 
+                src={image}
+                alt={name}
+                fill
+                className="object-cover transition-opacity duration-300 group-hover:opacity-0"
+                loading="lazy"
+              />
+            )}
+            {hoverImage && !images && (
+              <NextImage 
+                src={hoverImage}
+                alt={`${name} hover`}
+                fill
+                className="object-cover absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                loading="lazy"
+              />
+            )}
+            {!image && (!images || images.length === 0) && !hoverImage && (
+              <span className="text-zinc-500">Imagen</span>
+            )}
+          </div>
+        </Link>
+        <h3 className="font-semibold text-lg mb-2 text-center text-white">{name}</h3>
         <span className="text-red-500 font-bold mb-4">${price.toLocaleString()}</span>
         
         <Link 

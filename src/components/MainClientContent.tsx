@@ -3,14 +3,13 @@
 import React from "react";
 import { mockProducts } from "@/data/products";
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import Image from 'next/image';
 
 const DynamicProductCard = dynamic(() => import('@/components/ProductCard'), {
   ssr: false,
   loading: () => (
-    <div className="bg-zinc-900 rounded-lg p-4 flex flex-col items-center shadow-md">
-      <div className="w-40 h-40 bg-zinc-800 rounded mb-4 flex items-center justify-center">
+    <div className="flex flex-col items-center">
+      <div className="w-64 h-96 bg-zinc-800 rounded mb-4 flex items-center justify-center">
         <span className="text-zinc-500">Cargando Imagen...</span>
       </div>
       <div className="h-6 bg-zinc-800 w-3/4 rounded mb-2"></div>

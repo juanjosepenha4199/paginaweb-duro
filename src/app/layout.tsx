@@ -8,6 +8,7 @@ import { CartProvider } from "@/context/CartContext";
 
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,10 +30,11 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased bg-black text-white flex flex-col min-h-screen`}>
         <CartProvider>
           <Header />
-          <main className="w-full mx-auto px-4 py-8">
+          <main className="w-full mx-auto px-4 py-8 pt-20">
             {children}
           </main>
           <Footer />
+          <WhatsAppButton />
         </CartProvider>
       </body>
     </html>

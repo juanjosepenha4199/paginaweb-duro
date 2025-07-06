@@ -18,27 +18,22 @@ export default function ProductDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const addToCartBtnRef = useRef<HTMLButtonElement>(null);
-  const [bubbleAnim, setBubbleAnim] = useState(false); // Se usará para la animación de la burbuja
-  console.log(bubbleAnim); // Evita el error de linter
+  const [bubbleAnim, setBubbleAnim] = useState(false);
+  const [mainImageIdx, setMainImageIdx] = useState(0);
 
   useEffect(() => {
-    // Find product from imported data
     const foundProduct = mockProducts.find(p => p.id === productId);
     if (foundProduct) {
-      // Filtrar solo tallas M y L
       const filteredSizes = foundProduct.sizes.filter(size => ['M', 'L'].includes(size));
-      // Filtrar solo colores blanco y negro
       const filteredColors = foundProduct.colors.filter(color => ['Blanco', 'Negro'].includes(color));
-      
       setProduct({
         ...foundProduct,
         sizes: filteredSizes,
         colors: filteredColors
       });
-      
-      // Seleccionar primera talla y color disponibles por defecto
       setSelectedSize(filteredSizes[0] || null);
       setSelectedColor(filteredColors[0] || null);
+      setMainImageIdx(0);
     } else {
       setError('Producto no encontrado');
     }
@@ -51,7 +46,7 @@ export default function ProductDetailPage() {
       setBubbleAnim(true);
       setTimeout(() => {
         setSuccessMessage(null);
-        setBubbleAnim(false); // Reiniciar el estado para permitir la animación nuevamente
+        setBubbleAnim(false);
       }, 3000);
     } else {
       setError('Por favor, selecciona talla y color.');
@@ -67,25 +62,57 @@ export default function ProductDetailPage() {
     return <div className="text-center text-white p-4">Cargando...</div>;
   }
 
+  // Determinar imágenes a mostrar
+  let images: string[] = [];
+  if (product.images && product.images.length > 0) {
+    images = product.images;
+  } else if (product.image) {
+    images = [product.image];
+    if (product.hoverImage) images.push(product.hoverImage);
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <CartFlyBubble isVisible={bubbleAnim} />
       <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-1/2">
-          {/* Display product image */}
-          {product.image && (
-            <Image 
-              src={product.image}
-              alt={product.name}
-              width={500}
-              height={500}
-              objectFit="cover"
-              className="rounded-lg"
-            />
+        <div className="md:w-1/2 flex flex-col items-center">
+          {/* Imagen principal */}
+          {images.length > 0 && (
+            <div className="aspect-[3/4] w-full max-w-[520px] min-h-[693px] rounded-lg mb-4 overflow-hidden relative">
+              <Image
+                src={images[mainImageIdx]}
+                alt={product.name}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          )}
+          {/* Miniaturas */}
+          {images.length > 1 && (
+            <div className="flex gap-2 mt-2">
+              {images.map((img, idx) => (
+                <button
+                  key={img}
+                  onClick={() => setMainImageIdx(idx)}
+                  className={`border-2 rounded-lg overflow-hidden focus:outline-none ${mainImageIdx === idx ? 'border-red-500' : 'border-transparent'}`}
+                  style={{ width: 80, height: 106 }}
+                >
+                  <Image
+                    src={img}
+                    alt={`Miniatura ${idx + 1}`}
+                    width={80}
+                    height={106}
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
           )}
         </div>
         <div className="md:w-1/2 flex flex-col justify-center">
-          <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+          <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
+          {product.description && <p className="text-lg text-zinc-300 mb-4">{product.description}</p>}
           <p className="text-2xl font-semibold text-red-500 mb-6">${product.price.toLocaleString()}</p>
 
           {/* Size Selection */}
